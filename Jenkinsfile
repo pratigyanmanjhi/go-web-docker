@@ -48,7 +48,7 @@ pipeline {
                 script {
                     
                     def dockerfile = 'Dockerfile.production
-                    docker.build("go-web-docker/mathapp-production:${TAG}", "-f Dockerfile.production")
+			docker.build("go-web-docker/mathapp-production:${TAG}", "-f ${dockerfile} .")
                 }
             }
         }
