@@ -36,18 +36,18 @@ pipeline {
                 }
             }
         }
-        stage('build') {
+        /*stage('build') {
             steps {
                 sh '''
                 docker build -f Dockerfile.production -t mathapp-production .
                 '''
             }
-        }
+        }*/
         stage('Docker Build') {
             steps {
                 script {
                     
-                    def dockerfile = 'Dockerfile.production
+                    def dockerfile = 'Dockerfile.production'
 			docker.build("go-web-docker/mathapp-production:${TAG}", "-f ${dockerfile} .")
                 }
             }
