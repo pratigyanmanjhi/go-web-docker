@@ -7,6 +7,10 @@ pipeline {
         GO114MODULE = 'on'
         //CGO_ENABLED = 0 
         //GOPATH = "${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_ID}"
+    
+        DATE = new Date().format('yy.M')
+        TAG = "${DATE}.${BUILD_NUMBER}"
+    
     }
     stages {        
         stage('Pre Test') {
@@ -39,6 +43,33 @@ pipeline {
                 '''
             }
         }
+        stage('Docker Build') {
+            steps {
+                script {
+                    
+                    def dockerfile = 'Dockerfile.production'
+                    docker.build("go-web-docker/mathapp-production:${TAG}", "-f ${dockerfile} .")
+                    docker.build("go-web-docker/mathapp-production:${TAG}", -f Dockerfile.production)
+                }
+            }
+        }
+	    stage('Pushing Docker Image to Jfrog Artifactory') {
+            steps {
+                script {
+                    docker.withRegistry('https://webappartifactory.jfrog.io/', 'jfrog_credential') {
+                        docker.image("go-web-docker/mathapp-production:${TAG}").push()
+                        docker.image("go-web-docker/mathapp-production:${TAG}").push("latest")
+                    }
+                }
+            }
+        }
+        /*stage('Deploy'){
+            steps {
+                sh "docker stop hello-world | true"
+                sh "docker rm hello-world | true"
+                sh "docker run --name hello-world -d -p 9004:8080 vigneshsweekaran.jfrog.io/default-docker-local/hello-world:${TAG}"
+            }
+        }*/
         
     }
      
