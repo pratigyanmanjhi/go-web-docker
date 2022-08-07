@@ -13,51 +13,34 @@ pipeline {
             steps {
                  dir('src') {
                     echo 'Installing dependencies'
-                    sh 'go mod init'
                     sh 'go version'
-                    sh 'go get -u golang.org/x/lint/golint'
-                    sh 'github.com/go-sql-driver/mysql'
+
                  }
                 
             }
         }
         
-        stage('Build') {
-            steps {
-                echo 'Compiling and building'
-                dir('src') {
-                    sh 'go build .' 
-                }
-                
-            }
-        }
 
         stage('Test') {
             steps {
                 dir('src') {
                     
-                    withEnv(["PATH+GO=${GOPATH}/bin"]){
                         echo 'Running vetting'
-                        sh 'go vet .'
-                        echo 'Running linting'
-                        //sh 'golint .'
+
                         echo 'Running test'
-                        //sh 'cd test && go test -v'
-                    }
-                
-                
+   
                 }
+            }
+        }
+        stage('build') {
+            steps {
+                sh '''
+                docker build -f Dockerfile.production -t mathapp-production .
+                '''
             }
         }
         
     }
-    /*post {
-        always {
-            emailext body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}",
-                recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']],
-                to: "${params.RECIPIENTS}",
-                subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
-            
-        }
-    }*/  
+     
 }
+
