@@ -20,7 +20,6 @@ pipeline {
                     sh 'go version'
 
                  }
-                
             }
         }
         
@@ -67,7 +66,7 @@ pipeline {
                 script {
                     
                     https://github.com/pratigyanmanjhi/sshpass.git
-			docker.build("go-web-docker/mathapp-production:${TAG}", "-f ${dockerfile} .")
+			              
                 }
             }
         }
@@ -75,16 +74,16 @@ pipeline {
             steps {
 
                 git 'https://github.com/pratigyanmanjhi/sshpass.git'
-                }
+            
             }
         }
         stage('execute anible-playbook') {
             steps {
 
                 ansiblePlaybook credentialsId: 'ansible-node-laptop', disableHostKeyChecking: true, installation: 'ansible', inventory: 'hosts', playbook: 'playbooks/jfrog_login.yaml'
-                }
             }
         }
+      
         
     }
      
