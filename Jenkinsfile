@@ -62,13 +62,29 @@ pipeline {
                 }
             }
         }
-        /*stage('Deploy'){
+        stage('checkout SCM') {
             steps {
-                sh "docker stop hello-world | true"
-                sh "docker rm hello-world | true"
-                sh "docker run --name hello-world -d -p 9004:8080 vigneshsweekaran.jfrog.io/default-docker-local/hello-world:${TAG}"
+                script {
+                    
+                    https://github.com/pratigyanmanjhi/sshpass.git
+			docker.build("go-web-docker/mathapp-production:${TAG}", "-f ${dockerfile} .")
+                }
             }
-        }*/
+        }
+	stage('checkout SCM') {
+            steps {
+
+                git 'https://github.com/pratigyanmanjhi/sshpass.git'
+                }
+            }
+        }
+        stage('execute anible-playbook') {
+            steps {
+
+                ansiblePlaybook credentialsId: 'ansible-node-laptop', disableHostKeyChecking: true, installation: 'ansible', inventory: 'hosts', playbook: 'playbooks/jfrog_login.yaml'
+                }
+            }
+        }
         
     }
      
