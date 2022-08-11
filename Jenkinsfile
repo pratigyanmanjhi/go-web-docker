@@ -62,11 +62,11 @@ pipeline {
         }
         stage('checkout SCM') {
             steps {
-                script {
+               
                     
                     git branch: 'main', credentialsId: 'jfrog_credential', url: 'https://github.com/pratigyanmanjhi/sshpass.git'
 			              
-                }
+               
             }
         }
         
