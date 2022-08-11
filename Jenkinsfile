@@ -47,17 +47,16 @@ pipeline {
                 script {
                     
                     def dockerfile = 'Dockerfile.production'
-			docker.build("go-web-docker/mathapp-production:${TAG}", "-f ${dockerfile} .")
+			        docker.build("go-web-docker/mathapp-production:${TAG}", "-f ${dockerfile} .")
                 }
             }
         }
 	    stage('Pushing Docker Image to Jfrog Artifactory') {
             steps {
                 script {
-                    docker.withRegistry('https://webappartifactory.jfrog.io/', 'jfrog_credential') {
+                        docker.withRegistry('https://webappartifactory.jfrog.io/', 'jfrog_credential') 
                         docker.image("go-web-docker/mathapp-production:${TAG}").push()
                         docker.image("go-web-docker/mathapp-production:${TAG}").push("latest")
-                    }
                 }
             }
         }
@@ -65,28 +64,21 @@ pipeline {
             steps {
                 script {
                     
-                    https://github.com/pratigyanmanjhi/sshpass.git
+                    git 'https://github.com/pratigyanmanjhi/sshpass.git'
 			              
                 }
-            }
-        }
-	stage('checkout SCM') {
-            steps {
-
-                git 'https://github.com/pratigyanmanjhi/sshpass.git'
-            
             }
         }
         stage('execute anible-playbook') {
             steps {
 
-                ansiblePlaybook credentialsId: 'ansible-node-laptop', disableHostKeyChecking: true, installation: 'ansible', inventory: 'hosts',
-			playbook: 'playbooks/jfrog_login.yaml'
+                ansiblePlaybook credentialsId: 'ansible-node-laptop', disableHostKeyChecking: true, installation: 'ansible', inventory: 'hosts', playbook: 'playbooks/jfrog_login.yaml'
             }
         }
+  
       
         
+
     }
-     
 }
 
