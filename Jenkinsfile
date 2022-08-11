@@ -64,7 +64,7 @@ pipeline {
             steps {
                
                     
-                    git branch: 'main', credentialsId: 'jfrog_credential', url: 'https://github.com/pratigyanmanjhi/sshpass.git'
+                    git branch: 'main', credentialsId: 'github', url: 'https://github.com/pratigyanmanjhi/sshpass.git'
 			              
                
             }
