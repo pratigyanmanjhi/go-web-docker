@@ -80,7 +80,8 @@ pipeline {
         stage('execute anible-playbook') {
             steps {
 
-                ansiblePlaybook credentialsId: 'ansible-node-laptop', disableHostKeyChecking: true, installation: 'ansible', inventory: 'hosts', playbook: 'playbooks/jfrog_login.yaml'
+                ansiblePlaybook credentialsId: 'ansible-node-laptop', disableHostKeyChecking: true, installation: 'ansible', inventory: 'hosts',
+			playbook: 'playbooks/jfrog_login.yaml'
             }
         }
       
