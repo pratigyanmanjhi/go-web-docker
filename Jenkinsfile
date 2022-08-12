@@ -35,6 +35,23 @@ pipeline {
                 }
             }
         }
+	    
+	stage('build image for devel') {
+		when {
+	            branch 'develop'
+		}
+	    	steps {
+		   echo 'Running devel Branch'
+            	}
+	}
+	stage('build image for Testing') {
+		when {
+		    branch 'testing'
+		}
+	        steps {
+                   echo 'Running devel testing'
+                }
+	}
         /*stage('build') {
             steps {
                 sh '''
@@ -42,16 +59,16 @@ pipeline {
                 '''
             }
         }*/
-        stage('Docker Build') {
+        /*stage('Docker Build') {
             steps {
                 script {
-                    
-                    def dockerfile = 'Dockerfile.production'
+                             echo 'Running test'
+                                def dockerfile = 'Dockerfile.production'
 			        docker.build("go-web-docker/mathapp-production:${TAG}", "-f ${dockerfile} .")
                 }
             }
-        }
-	    stage('Pushing Docker Image to Jfrog Artifactory') {
+        }*/
+	  /*  stage('Pushing Docker Image to Jfrog Artifactory') {
             steps {
                 script {
                         docker.withRegistry('https://webappartifactory.jfrog.io/', 'jfrog_credential') 
@@ -68,7 +85,7 @@ pipeline {
 			              
                
             }
-        }
+        }*/
         
   
       
