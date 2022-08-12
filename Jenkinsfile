@@ -49,7 +49,8 @@ pipeline {
 		    branch 'testing'
 		}
 	        steps {
-                   echo 'Running devel testing'
+                   echo 'Running  testing'
+			echo 'test for hook'
                 }
 	}
         /*stage('build') {
