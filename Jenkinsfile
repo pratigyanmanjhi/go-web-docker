@@ -72,9 +72,10 @@ pipeline {
 	  /*  stage('Pushing Docker Image to Jfrog Artifactory') {
             steps {
                 script {
-                        docker.withRegistry('https://webappartifactory.jfrog.io/', 'jfrog_credential') 
-                        docker.image("go-web-docker/mathapp-production:${TAG}").push()
-                        docker.image("go-web-docker/mathapp-production:${TAG}").push("latest")
+                        docker.withRegistry('https://webappartifactory.jfrog.io/', 'jfrog_credential') { 
+                           docker.image("go-web-docker/mathapp-production:${TAG}").push()
+                           docker.image("go-web-docker/mathapp-production:${TAG}").push("latest")
+                        }
                 }
             }
         }
