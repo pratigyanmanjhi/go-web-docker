@@ -38,7 +38,7 @@ pipeline {
 	    
 	stage('build image for devel') {
 		when {
-	            branch 'develop'
+	            branch 'devel'
 		}
 	    	steps {
 		   echo 'Running devel Branch'
@@ -53,7 +53,7 @@ pipeline {
 			echo 'test for hook'
                 }
 	}
-        stage('build') {
+        /*stage('build') {
             steps {
                 sh '''
                 docker build -f Dockerfile.production -t mathapp-production .
@@ -87,7 +87,7 @@ pipeline {
 			              
                
             }
-        }
+        }*/
         
       }
       post { 
