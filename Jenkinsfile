@@ -44,12 +44,12 @@ pipeline {
 		   echo 'Running devel Branch'
             	}
 	}
-	stage('build image for Testing') {
+	stage('build image for main') {
 		when {
-		    branch 'testing'
+		    branch 'main'
 		}
 	        steps {
-                   echo 'Running  testing'
+                   echo 'Running  main'
 			echo 'test for hook'
                 }
 	}
