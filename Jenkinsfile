@@ -58,10 +58,10 @@ pipeline {
 			echo 'test for hook'
                 }
 	}
-        /*stage('build') {
+        stage('build') {
             steps {
                 sh '''
-                docker build -f Dockerfile.production -t mathapp-production .
+                docker build -f Dockerfile.production_${env.BRANCH_NAME} -t mathapp-production .
                 '''
             }
         }
@@ -70,7 +70,7 @@ pipeline {
                 script {
                              echo 'Running test'
                                 def dockerfile = 'Dockerfile.production'
-			        docker.build("go-web-docker/mathapp-production:${TAG}", "-f ${dockerfile} .")
+			        docker.build("go-web-docker/mathapp-production_${env.BRANCH_NAME}:${TAG}", "-f ${dockerfile} .")
                 }
             }
         }
@@ -92,7 +92,7 @@ pipeline {
 			              
                
             }
-        }*/
+        }
         
       }
       post { 
