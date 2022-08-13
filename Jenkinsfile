@@ -37,12 +37,16 @@ pipeline {
         }
 	    
 	stage('build image for devel') {
-		when {
-	            branch 'devel'
-		}
-	    	steps {
+	    steps {
 		   echo 'Running devel Branch'
-            	}
+                   script {
+                    if (env.BRANCH_NAME == 'devel') {
+                        echo 'Hello from devel branch branch'
+                    }  else {
+                        sh "echo 'Hello from ${env.BRANCH_NAME} branch!'"
+                    }
+                    }
+            }
 	}
 	stage('build image for main') {
 		when {
