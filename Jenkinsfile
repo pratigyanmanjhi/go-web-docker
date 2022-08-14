@@ -58,6 +58,15 @@ pipeline {
 			echo 'test for hook'
                 }
 	}
+	stage('build image for main') {
+		when {
+		    branch 'testing'
+		}
+	        steps {
+                   echo 'Running  testing'
+			echo 'test for hook'
+                }
+	}
         stage('build') {
             steps {
                 sh '''
