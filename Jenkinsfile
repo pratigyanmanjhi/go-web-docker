@@ -96,15 +96,18 @@ pipeline {
         stage('checkout SCM') {
             steps {
                
-                    
-                    git branch: 'main', credentialsId: 'github', url: 'https://github.com/pratigyanmanjhi/sshpass.git'
-			              
+                   dir('ansible') {
+               
+                      git branch: 'main', credentialsId: 'github', url: 'https://github.com/pratigyanmanjhi/sshpass.git'
+		   }	              
                
             }
         }
         stage('Run Playbook') {
    	     steps {
-                ansiblePlaybook credentialsId: 'ansible-node-laptop', installation: 'ansible', inventory: 'hosts', playbook: 'playbooks/jfrog_login.yaml'
+                dir('ansible') {
+                   ansiblePlaybook credentialsId: 'ansible-node-laptop', installation: 'ansible', inventory: 'hosts', playbook: 'playbooks/jfrog_login.yaml'
+                }
              }
         }
         
