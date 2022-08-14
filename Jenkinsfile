@@ -94,7 +94,7 @@ pipeline {
             }
         }
         stage('checkout SCM') {
-             agent { label 'ansible' }    
+//             agent { label 'ansible' }    
          steps {
                
                    dir('ansible') {
@@ -105,14 +105,14 @@ pipeline {
             }
         }
        stage('Run Playbook') {
-            agent { label 'ansible' }
+  //          agent { label 'ansible' }
    	     steps {
                 dir('ansible') {
                    sh '''pwd
-                        ls -lart
-                       // ansiblePlaybook credentialsId: 'ansible-node-laptop', installation: 'ansible', inventory: 'hosts', playbook: 'playbooks/askpass1.yaml'
-                          ansible-playbook -i playbooks/askpass1.yaml
-                    '''
+                        ls -lart'''
+                        ansiblePlaybook credentialsId: 'ansible-node-laptop', installation: 'ansible', inventory: 'hosts', playbook: 'playbooks/askpass1.yaml'
+                         
+                   
                  }
 
              }
