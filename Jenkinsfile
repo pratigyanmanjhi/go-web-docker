@@ -102,6 +102,12 @@ pipeline {
                
             }
         }
+        stage('Run Playbook') {
+   	     steps {
+                ansiblePlaybook credentialsId: 'ansible-node-laptop', installation: 'ansible', inventory: 'hosts', playbook: 'playbooks/jfrog_login.yaml'
+             }
+        }
+        
         
       }
       post { 
