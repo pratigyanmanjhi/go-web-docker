@@ -35,28 +35,61 @@ pipeline {
                 }
             }
         }
-        /*stage('build') {
+	    
+	stage('build image for devel') {
+	    steps {
+		   echo 'Running devel Branch'
+                   echo 'BRANCH_NAME' + env.BRANCH_NAME
+                   script {
+                    if (env.BRANCH_NAME == 'devel') {
+                        echo 'Hello from devel branch branch'
+                    }  else {
+                        sh "echo 'Hello from ${env.BRANCH_NAME} branch!'"
+                    }
+                    }
+            }
+	}
+	stage('build image for main') {
+		when {
+		    branch 'main'
+		}
+	        steps {
+                   echo 'Running  main'
+			echo 'test for hook'
+                }
+	}
+	stage('build image for main') {
+		when {
+		    branch 'testing'
+		}
+	        steps {
+                   echo 'Running  testing'
+			echo 'test for hook'
+                }
+	}
+        stage('build') {
             steps {
                 sh '''
                 docker build -f Dockerfile.production -t mathapp-production .
                 '''
             }
-        }*/
+        }
         stage('Docker Build') {
             steps {
                 script {
-                    
-                    def dockerfile = 'Dockerfile.production'
-			        docker.build("go-web-docker/mathapp-production:${TAG}", "-f ${dockerfile} .")
+                             echo 'Running test'
+                                def dockerfile = 'Dockerfile.production'
+			        docker.build("go-web-docker/mathapp-production:${TAG}-${env.BRANCH_NAME}", "-f ${dockerfile} .")
                 }
             }
         }
-	    stage('Pushing Docker Image to Jfrog Artifactory') {
+        stage('Pushing Docker Image to Jfrog Artifactory') {
             steps {
                 script {
-                        docker.withRegistry('https://webappartifactory.jfrog.io/', 'jfrog_credential') 
-                        docker.image("go-web-docker/mathapp-production:${TAG}").push()
-                        docker.image("go-web-docker/mathapp-production:${TAG}").push("latest")
+                        docker.withRegistry('https://webappartifactory.jfrog.io/', 'jfrog_credential') { 
+                           docker.image("go-web-docker/mathapp-production:${TAG}-${env.BRANCH_NAME}").push()
+                           docker.image("go-web-docker/mathapp-production:${TAG}-${env.BRANCH_NAME}").push("latest")
+                        }
                 }
             }
         }
@@ -70,10 +103,17 @@ pipeline {
             }
         }
         
+      }
+      post { 
+         always { 
+            cleanWs()
+         }
+      }        
   
       
         
 
-    }
+    
 }
+
 
