@@ -58,7 +58,7 @@ pipeline {
 			echo 'test for hook'
                 }
 	}
-	stage('build image for main') {
+	stage('build image for testing') {
 		when {
 		    branch 'testing'
 		}
