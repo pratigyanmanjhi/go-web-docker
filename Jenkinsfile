@@ -61,7 +61,7 @@ pipeline {
         stage('build') {
             steps {
                 sh '''
-                docker build -f Dockerfile.production -t mathapp-productionn_${env.BRANCH_NAME} .
+                docker build -f Dockerfile.production -t mathapp-productionn .
                 '''
             }
         }
@@ -70,7 +70,7 @@ pipeline {
                 script {
                              echo 'Running test'
                                 def dockerfile = 'Dockerfile.production'
-			        docker.build("go-web-docker/mathapp-production_${env.BRANCH_NAME}:${TAG}", "-f ${dockerfile} .")
+			        docker.build("go-web-docker/mathapp-production:${TAG}-${env.BRANCH_NAME}", "-f ${dockerfile} .")
                 }
             }
         }
@@ -78,8 +78,8 @@ pipeline {
             steps {
                 script {
                         docker.withRegistry('https://webappartifactory.jfrog.io/', 'jfrog_credential') { 
-                           docker.image("go-web-docker/mathapp-productionn_${env.BRANCH_NAME}:${TAG}").push()
-                           docker.image("go-web-docker/mathapp-productionn_${env.BRANCH_NAME}:${TAG}").push("latest")
+                           docker.image("go-web-docker/mathapp-production:${TAG}-${env.BRANCH_NAME}").push()
+                           docker.image("go-web-docker/mathapp-production:${TAG}-${env.BRANCH_NAME}").push("latest")
                         }
                 }
             }
