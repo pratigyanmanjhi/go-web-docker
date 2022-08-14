@@ -97,23 +97,23 @@ pipeline {
 //             agent { label 'ansible' }    
          steps {
                
-                   dir('ansible') {
+                   //dir('ansible') {
                
                       git branch: 'main', credentialsId: 'github', url: 'https://github.com/pratigyanmanjhi/sshpass.git'
-		   }	              
+		   //}	              
                
             }
         }
        stage('Run Playbook') {
   //          agent { label 'ansible' }
    	     steps {
-                dir('ansible') {
-                   sh '''pwd
-                        ls -lart'''
+                //dir('ansible') {
+                  // sh '''pwd
+                    //    ls -lart'''
                         ansiblePlaybook credentialsId: 'ansible-node-laptop', installation: 'ansible', inventory: 'hosts', playbook: 'playbooks/askpass1.yaml'
                          
                    
-                 }
+                // }
 
              }
         }
