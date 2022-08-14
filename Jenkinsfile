@@ -65,7 +65,7 @@ pipeline {
                 '''
             }
         }
-        stage('Docker Build') {
+/*        stage('Docker Build') {
             steps {
                 script {
                              echo 'Running test'
@@ -92,7 +92,7 @@ pipeline {
 			              
                
             }
-        }
+        }*/
         
       }
       post { 
