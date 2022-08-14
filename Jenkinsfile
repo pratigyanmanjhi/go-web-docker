@@ -61,11 +61,11 @@ pipeline {
         stage('build') {
             steps {
                 sh '''
-                docker build -f Dockerfile.production -t mathapp-productionn .
+                docker build -f Dockerfile.production -t mathapp-production .
                 '''
             }
         }
-        /*stage('Docker Build') {
+        stage('Docker Build') {
             steps {
                 script {
                              echo 'Running test'
